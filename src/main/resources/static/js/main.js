@@ -9,63 +9,56 @@ function initMenu(){
 	    		 location.href='/login.html';
 	    		 return;
 	    	 }
-	    	 
-	         var length = data.length;
-	         var menu = $("#menu");
-	         for(var i=0; i<length; i++){
-	             var p = data[i];
-	             var li = $("<li class='layui-nav-item'></li>");
+	    	 var menu = $("#menu");
+	    	 $.each(data, function(i,item){
 	             var a = $("<a href='javascript:;'></a>");
 	             
-	             var css = p['css'];
+	             var css = item.css;
 	             if(css!=null && css!=""){
 	            	 a.append("<i aria-hidden='true' class='fa " + css +"'></i>");
 	             }
-	             a.append("<cite>"+p['name']+"</cite>");
-	             a.attr("lay-id", p['id']);
+	             a.append("<cite>"+item.name+"</cite>");
+	             a.attr("lay-id", item.id);
 	             
-	             var href = p['href'];
+	             var href = item.href;
 	             if(href != null && href != ""){
 	                a.attr("data-url", href);
 	             }
+	             
+	             var li = $("<li class='layui-nav-item'></li>");
 	             li.append(a);
 	             
-	             var child = p['child'];
-	             if(child != null && child.length > 0){
-	                 var dl = $("<dl class='layui-nav-child'></dl>");
-	                 var childSize = 0;
-	                 for(var t=0; t<child.length; t++){
-	                     var c = child[t];
-	                     var ctype = c['type'];
-	                     if(ctype == 1){ // 排除掉按钮
-	                         var dd = $("<dd class='layui-nav-child'></dd>");
-	                         var ca = $("<a href='javascript:;'></a>");
-	                         ca.attr("data-url", c['href']);
-	                         ca.attr("lay-id", c['id']);
-	                         
-	                         var css2 = c['css'];
-	                         if(css2!=null && css2!=""){
-	                        	 ca.append("<i aria-hidden='true' class='fa " + css2 +"'></i>");
-	                         }
-	                         
-	                         ca.append("<cite>"+c['name']+"</cite>");
-                             dd.append(ca);
-                             dl.append(dd);
-                             childSize++;
-	                     }
-	                  }
-	                     
-                     if(childSize > 0){
+	             //二级菜单
+	             var child2 = item.child;
+	             if(child2 != null && child2.length > 0){
+	            	 $.each(child2, function(j,item2){
+	            		 var ca = $("<a href='javascript:;'></a>");
+                         ca.attr("data-url", item2.href);
+                         ca.attr("lay-id", item2.id);
+                         
+                         var css2 = item2.css;
+                         if(css2!=null && css2!=""){
+                        	 ca.append("<i aria-hidden='true' class='fa " + css2 +"'></i>");
+                         }
+                         
+                         ca.append("<cite>"+item2.name+"</cite>");
+                         
+                         var dd = $("<dd class='layui-nav-child'></dd>");
+                         dd.append(ca);
+                         
+                         var dl = $("<dl class='layui-nav-child'></dl>");
+                         dl.append(dd);
+                         
                          li.append(dl);
-                     }
-	               }
-	                 menu.append(li);
-	             }
-	         }
-	  
-	     });
-	}
+	            	 });
+	            }
+	            menu.append(li);
+	        });
+	     }
+	 });
+}
 
+// 登陆用户头像昵称
 showLoginInfo();
 function showLoginInfo(){
 	$.ajax({

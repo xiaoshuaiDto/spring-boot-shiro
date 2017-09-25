@@ -63,12 +63,13 @@ public class PermissionController {
 	private JSONArray reset(List<Permission> permissions) {
 		JSONArray array = new JSONArray();
 
-		List<Permission> parents = permissions.stream().filter(p -> p.getParentId().equals(0L))
+		List<Permission> parents = permissions.stream().filter(p -> p.getParentId().equals(0L) && p.getType().equals(1))
 				.collect(Collectors.toList());
 		parents.forEach(p -> {
 			String string = JSONObject.toJSONString(p);
 			JSONObject parent = (JSONObject) JSONObject.parse(string);
-			List<Permission> child = permissions.stream().filter(per -> per.getParentId().equals(p.getId()))
+			List<Permission> child = permissions.stream()
+					.filter(per -> per.getParentId().equals(p.getId()) && per.getType().equals(1))
 					.collect(Collectors.toList());
 			parent.put("child", child);
 

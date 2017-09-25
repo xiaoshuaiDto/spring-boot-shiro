@@ -8,7 +8,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.springframework.http.HttpStatus;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zw.admin.server.advice.ExceptionHandlerAdvice.ResponseInfo;
+import com.zw.admin.server.dto.ResponseInfo;
 import com.zw.admin.server.model.User;
 import com.zw.admin.server.service.SysLogService;
 import com.zw.admin.server.service.TokenManager;

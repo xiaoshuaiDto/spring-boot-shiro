@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div>
+                <header style="height: 100%">
+					 <div align="left">
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    <button type="button" class="layui-btn" id="test1">
+									  <i class="layui-icon">&#xe67c;</i>上传文件
+									</button>
+                                </td>
+                                <td align="right">
+                                    <form class="form-inline" onsubmit="return false">
+                                        <div class="form-group">
+                                           <button id="searchBt" class="layui-btn layui-btn-small" permission="sys:file:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr> 
+                        </table>
+                    </div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+						<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+var ins1;
+
+layui.use(['layer', 'table'], function(){
+    var layer = layui.layer;
+    var table = layui.table;
+
+    ins1 = table.render({
+      elem: '#LAY_table_user'
+      ,url: '/files'
+      ,cols: [[
+        {title: 'url', width:400, templet: '#urlDemo'}
+        ,{field:'path', title: 'path', width:500}
+        ,{field:'contentType', title: 'contentType', width:200}
+        ,{field:'updateTime', title: '修改时间', width:200, sort:true}
+        ,{fixed: 'right', width:100, align:'center', title:'管理', templet: '#barDemo'}
+      ]]
+      ,page: true
+      ,limit: 15
+      ,done: function(res, curr, count){
+    	 hidePermission(pers);
+      }
+    });
+
+    table.on('sort(user)', function(obj){ //注：tool是工具条事件名，user是table原始容器的属性 lay-filter="对应的值"
+          var column = obj.field; //当前排序的字段名
+	  	  var softType = obj.type; //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序
+	  	  if(softType != null){
+	  		ins1.reload({
+	  	        where: {
+	  	        	orderBy: column + " " + softType
+	  	        }
+	  	      });
+	  	  }
+  	  
+   });
+});
+
+$("#searchBt").click(function(){
+	ins1.reload();
+});
+
+var pro = window.location.protocol;
+var host = window.location.host;
+var domain = pro + "//" + host;
+
+function del(id){
+	layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+    	$.ajax({
+            type : 'delete',
+            url : '/files/'+id,
+            success : function(data) {
+            	ins1.reload();
+                layer.msg("删除成功");
+            }
+        });
+        
+        layer.close(1);
+    });
+}
+
+$("#searchBt").click(function(){
+	ins1.reload();
+});
+
+layui.use('upload', function(){
+	var upload = layui.upload;
+	upload.render({
+	    elem: '#test1' //绑定元素
+	    ,accept: 'file' //允许上传的文件类型
+	    ,url: '/files' //上传接口
+	    ,done: function(res, index, upload){
+	    	layer.msg("上传成功");
+	    	ins1.reload();
+	    }
+	  });
+});
+
+</script>
+<script type="text/html" id="urlDemo">
+{{# if(d.type == 1) { var src = domain + "/files" + d.url;}}
+	<a target='_blank' href='{{src}}'><img width='30' src='{{src}}'></img></a>
+{{#} else { }}
+{{d.url}}
+{{#}}}   
+</script>   
+<script type="text/html" id="barDemo">
+<button class='layui-btn layui-btn-mini' title='删除' permission="sys:file:del" onclick="del('{{d.id}}')"><i class='layui-icon'>&#xe640;</i></button>
+</script>   

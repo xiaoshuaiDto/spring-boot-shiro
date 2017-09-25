@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+									<form class="layui-form" onsubmit="return false">
+										<table style="width: 80%">
+											<tr>
+												<td width="200px">
+													<input id="username" type="text" class="layui-input" placeholder="用户名">
+												</td>
+												<td width="200px">
+													<input id="nickname" type="text" class="layui-input" placeholder="昵称">
+												</td>
+												<td width="200px">
+													<select id="status">
+														<option value="">全部</option>
+														<option value="1">正常</option>
+														<option value="2">锁定</option>
+														<option value="0">无效</option>
+													</select>
+												</td>
+												<td align="left">
+													<button id="searchBt" class="layui-btn layui-btn-small" permission="sys:user:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+												</td>
+											<tr>
+										</table>
+											
+									</form>
+								</td>
+								<td align="right">
+	                   				<button class="layui-btn layui-btn-small" onclick="location.href='addUser.html'" permission="sys:user:add">
+                                      <i class="layui-icon">&#xe608;</i> 添加
+                                    </button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+						<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+					</div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+var ins1;
+
+layui.use(['layer', 'table'], function(){
+    var layer = layui.layer;
+    var table = layui.table;
+
+    ins1 = table.render({
+      elem: '#LAY_table_user'
+      ,url: '/users'
+      ,cols: [[
+        {field:'username', title: 'username', width:300, sort: true}
+        ,{field:'nickname', title: '昵称', width:300, sort: true}
+        ,{field:'phone', title: '电话', width:200}
+        ,{field:'email', title: '邮箱', width:200}
+        ,{fixed: 'right', width:100, align:'center', title:'状态', templet: '#statusDemo'}
+        ,{fixed: 'right', width:100, align:'center', templet: '#barDemo'}
+      ]]
+      ,page: true
+      ,limit: 15
+      ,done: function(res, curr, count){
+    	 hidePermission(pers);
+      },
+    });
+    
+    table.on('sort(user)', function(obj){ //注：tool是工具条事件名，user是table原始容器的属性 lay-filter="对应的值"
+      var column = obj.field; //当前排序的字段名
+  	  var softType = obj.type; //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序
+  	  if(softType != null){
+  		ins1.reload({
+  	        where: {
+  	        	orderBy: column + " " + softType
+  	        }
+  	      });
+  	  }
+  	  
+  	});
+    
+});
+
+$("#searchBt").click(function(){
+	ins1.reload({
+        where: {
+        	username: $("#username").val(),
+        	nickname: $("#nickname").val(),
+        	status: $("#status").val(),
+        }
+    });
+});
+
+</script>
+<script type="text/html" id="statusDemo">
+{{# if(d.status == 1) { }}
+	正常
+{{#} else if(d.status == 0) { }}  
+	无效
+{{#} else { }}
+<span style='color:red'>锁定</span>
+{{#}}}       			
+</script>   
+<script type="text/html" id="barDemo">
+<button class='layui-btn layui-btn-mini' title='编辑' permission="sys:user:add" onclick="window.location='updateUser.html?id={{d.id}}'"><i class='layui-icon'>&#xe642;</i></button>
+</script>   

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="../layui/css/layui.css" media="all" />
+        <link rel="stylesheet" href="../layui/css/global.css" media="all" />
+    </head>
+
+    <body>
+        <div class="admin-main">
+            <blockquote class="layui-elem-quote">
+                <fieldset class="layui-elem-field">
+                    <legend>项目简介：</legend>
+                    <div class="layui-field-box">
+                      <p>此admin-boot项目前后端代码完全分离，基于ajax进行交互。</p>
+					  <p>模块：用户管理，在线用户，修改密码，菜单管理，角色管理分配，文件管理，公告管理，代码生成，数据源监控，接口swagger文档，头像修改，个人信息修改、日志查询、邮件管理。</p>
+					  <p>日志表：统一日志拦截,异步保存日志</p>
+					  <p>slf4j日志分包:将业务日志、sql日志、异常日志分离</p>
+					  <p>权限控制提供了基于session和Restful的无状态token两种方式</p>
+					  <p>spring-websocket推送：推送在线用户、推送公告</p>
+                      <p>集群：分布式session共享：使用spring-session实现</p>
+		            </div>
+		        </fieldset>
+            </blockquote>
+            <blockquote class="layui-elem-quote">
+                <fieldset class="layui-elem-field">
+                    <legend>说明：</legend>
+                    <div class="layui-field-box">
+                      <p>单机下不需要session共享</p>
+					  <p>集群下，请打开pom里的
+						groupId：org.springframework.session
+						artifactId：spring-session
+						和com.zw.admin.server.config.RedisConfig 中的@EnableRedisHttpSession
+					  </p>
+		            </div>
+		        </fieldset>
+            </blockquote>
+            <blockquote class="layui-elem-quote">
+	            <fieldset class="layui-elem-field">
+	                <legend>功能列表</legend>
+	                <div class="layui-field-box">
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>用户管理</legend>
+	                        <div class="layui-field-box">
+	                            <p>1、用户查询</p>
+	                            <p>2、在线列表</p>
+	                        </div>
+	                    </fieldset>
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>系统设置</legend>
+	                        <div class="layui-field-box">
+	                            <p>1、菜单</p>           
+	                            <p>2、角色</p>
+	                        </div>
+	                    </fieldset>
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>文件管理</legend>
+	                        <div class="layui-field-box">
+	                            <p>1、文件上传</p>                         
+	                            <p>2、查询</p>
+	                            <p>3、删除</p>
+	                        </div>
+	                    </fieldset>
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>公告管理</legend>
+	                        <div class="layui-field-box">
+	                        	<p>1、富文本的使用</p>   
+	                        </div>
+	                    </fieldset>
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>代码生成</legend>
+	                        <div class="layui-field-box">
+	                        </div>
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>数据源监控</legend>
+	                        <div class="layui-field-box">
+	                        </div>
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>接口swagger文档</legend>
+	                        <div class="layui-field-box">
+	                        </div>
+	                    </fieldset>
+	                    <fieldset class="layui-elem-field layui-field-title">
+	                        <legend>邮件管理</legend>
+	                        <div class="layui-field-box">
+	                        </div>
+	                    </fieldset>
+	                </div>
+	            </fieldset>
+	        </blockquote>
+        </div>
+    </body>
+
+</html>

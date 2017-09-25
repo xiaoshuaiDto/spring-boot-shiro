@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+								<form class="layui-form" onsubmit="return false">
+										<table style="width: 80%">
+											<tr>
+												<td width="200px">
+													<input id="title" type="text" class="layui-input" placeholder="title">
+												</td>
+												<td width="200px">
+													<input type="text" class="layui-input" placeholder="开始时间" id="beginTime">
+												</td>
+												<td width="200px">
+													<input type="text" class="layui-input" placeholder="结束时间" id="endTime">
+												</td>
+												<td width="200px">
+													<select class="form-control input-sm" id="status">
+														<option value="">全部</option>
+														<option value="0">草稿</option>
+														<option value="1">发布</option>
+													</select>
+												</td>
+												<td align="left">
+													<button id="searchBt" class="layui-btn layui-btn-small" permission="articles:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+												</td>
+											<tr>
+										</table>
+											
+									</form>
+								<td align="right">
+									<button class="layui-btn layui-btn-small" onclick="location.href='addArticle.html'" permission="articles:add">
+									  <i class="layui-icon">&#xe608;</i> 添加
+									</button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+						<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+					</div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+var ins1;
+
+layui.use(['layer', 'table'], function(){
+    var layer = layui.layer;
+    var table = layui.table;
+
+    ins1 = table.render({
+      elem: '#LAY_table_user'
+      ,url: '/articles'
+      ,cols: [[
+        {field:'id', title: 'ID', width:150}
+        ,{field:'title', title: 'title', width:300, sort:true}
+        ,{field:'content', title: 'content', width:500}
+        ,{field:'createTime', title: '创建时间', width:200, sort:true}
+        ,{fixed: 'right', width:100, align:'center', title:'状态', templet: '#statusDemo'}
+        ,{fixed: 'right', width:100, align:'center', title:'操作', templet: '#barDemo'}
+      ]]
+      ,page: true
+      ,limit: 15
+      ,done: function(res, curr, count){
+    	 hidePermission(pers);
+      }
+    });
+
+    table.on('sort(user)', function(obj){ //注：tool是工具条事件名，user是table原始容器的属性 lay-filter="对应的值"
+          var column = obj.field; //当前排序的字段名
+	 	  var softType = obj.type; //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序
+	 	  if(softType != null){
+	 		ins1.reload({
+	 	        where: {
+	 	        	orderBy: column + " " + softType
+	 	        }
+	 	      });
+	 	  }
+  	  
+   });
+});
+layui.use(['layer','laydate'], function(){
+    var layer = layui.layer;
+    var laydate = layui.laydate;
+    laydate.render({
+       elem: '#beginTime'
+    });
+    laydate.render({
+       elem: '#endTime'
+    });
+});
+
+function del(id){
+    layer.confirm('确定要删除吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            type : 'delete',
+            url : '/articles/'+id,
+            success : function(data) {
+            	ins1.reload();
+                layer.msg("删除成功");
+            }
+        });
+        
+        layer.close(1);
+    });
+}
+
+$("#searchBt").click(function(){
+	ins1.reload({
+        where: {
+        	title: $("#title").val(),
+        	beginTime: $("#beginTime").val(),
+        	endTime: $("#endTime").val(),
+        	status: $("#status").val(),
+        }
+    });
+});
+
+</script>
+<script type="text/html" id="statusDemo">
+{{# if(d.status == 1) { }}
+	发布
+{{#} else { }}
+草稿
+{{#}}}       			
+</script>   
+<script type="text/html" id="barDemo">
+<button class='layui-btn layui-btn-mini' title='编辑' permission="articles:add" onclick="window.location='updateArticle.html?id={{d.id}}'"><i class='layui-icon'>&#xe642;</i></button>
+<button class='layui-btn layui-btn-mini' title='删除' permission="articles:del" onclick="del('{{d.id}}')"><i class='layui-icon'>&#xe640;</i></button>
+</script>    

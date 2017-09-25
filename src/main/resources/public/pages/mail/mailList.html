@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
+</head>
+<body>
+    <div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <header style="height: 100%">
+                    <div align="left">
+	                    <table style="width: 100%">
+	                   		<tr>
+	                   			<td>
+									<form class="form-inline" onsubmit="return false">
+										<table style="width: 80%">
+											<tr>
+												<td width="200px">
+													<input id="subject" type="text" class="layui-input" placeholder="标题">
+												</td>
+												<td width="200px">
+													<input type="text" class="layui-input" placeholder="开始时间" id="beginTime">
+												</td>
+												<td width="200px">
+													<input type="text" class="layui-input" placeholder="结束时间" id="endTime">
+												</td>
+												<td align="left">
+													<button id="searchBt" class="layui-btn layui-btn-small" permission="mail:all:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+												</td>
+											<tr>
+										</table>
+									</form>
+								</td>
+								<td align="right">
+									<button class="layui-btn layui-btn-small" onclick="location.href='addMail.html'" permission="mail:send">
+									  <i class="layui-icon">&#xe608;</i> 添加
+									</button>
+	                   			</td>
+	                   		</tr> 
+	                    </table>
+					</div>
+                </header>
+                
+                <div>
+                    <div class="widget-body no-padding">
+						<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+					</div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../js/jq.js"></script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/my/permission.js"></script>
+<script type="text/javascript">
+var pers = checkPermission();
+var ins1;
+
+layui.use(['layer', 'table', 'laydate'], function(){
+    var layer = layui.layer;
+    var table = layui.table;
+
+    ins1 = table.render({
+      elem: '#LAY_table_user'
+      ,url: '/mails'
+      ,cols: [[
+        {field:'id', title: 'ID', width:80}
+        ,{field:'subject', title: '标题', width:400}
+        ,{field:'content', title: '内容', width:500}
+        ,{field:'createTime', title: '创建时间', width:200, sort:true}
+        ,{fixed: 'right', width:100, align:'center', title:'操作', templet: '#barDemo'}
+      ]]
+      ,page: true
+      ,limit: 15
+      ,done: function(res, curr, count){
+    	 
+      }
+    });
+    
+    table.on('sort(user)', function(obj){ //注：tool是工具条事件名，user是table原始容器的属性 lay-filter="对应的值"
+          var column = obj.field; //当前排序的字段名
+	  	  var softType = obj.type; //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序
+	  	  if(softType != null){
+	  		ins1.reload({
+	  	        where: {
+	  	        	orderBy: column + " " + softType
+	  	        }
+	  	      });
+	  	  }
+	  	  
+	});
+    
+    var laydate = layui.laydate;
+    laydate.render({
+       elem: '#beginTime'
+    });
+    laydate.render({
+       elem: '#endTime'
+    });
+    
+});
+
+$("#searchBt").click(function(){
+	ins1.reload({
+        where: {
+        	subject: $("#subject").val(),
+        	beginTime: $("#beginTime").val(),
+        	endTime: $("#endTime").val(),
+        }
+    });
+});
+
+</script>
+<script type="text/html" id="barDemo">
+<button class='layui-btn layui-btn-mini' title='详情' onclick="window.location='mailDetail.html?id={{d.id}}'">详情</button>
+</script>  

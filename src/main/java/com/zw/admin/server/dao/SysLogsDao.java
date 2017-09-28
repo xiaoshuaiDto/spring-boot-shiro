@@ -3,6 +3,7 @@ package com.zw.admin.server.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,7 @@ public interface SysLogsDao {
 
 	List<SysLogs> list(@Param("params") Map<String, Object> params, @Param("offset") Integer offset,
 			@Param("limit") Integer limit);
+
+	@Delete("delete from sys_logs where createTime <= #{time}")
+	int deleteLogs(String time);
 }

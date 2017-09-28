@@ -124,6 +124,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
 		<!-- 集群下，启用session共享时，需打开 -->
 		<!-- <dependency> <groupId>org.springframework.session</groupId> <artifactId>spring-session</artifactId> 
 			</dependency> -->

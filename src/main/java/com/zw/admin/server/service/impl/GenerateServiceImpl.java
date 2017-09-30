@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.google.common.collect.Maps;
 import com.zw.admin.server.dto.BeanField;
@@ -44,6 +45,9 @@ public class GenerateServiceImpl implements GenerateService {
 		List<BeanField> beanFields = jdbcTemplate.query(
 				"select column_name, data_type, column_comment, column_default FROM information_schema.columns WHERE table_name= ? and table_schema = (select database())",
 				new String[] { tableName }, beanFieldMapper);
+		if (CollectionUtils.isEmpty(beanFields)) {
+			throw new IllegalArgumentException("表" + tableName + "不存在");
+		}
 
 		beanFields.parallelStream().forEach(b -> {
 			b.setName(StrUtil.str2hump(b.getColumnName()));

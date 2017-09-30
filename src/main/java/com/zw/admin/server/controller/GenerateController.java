@@ -16,6 +16,8 @@ import com.zw.admin.server.dto.GenerateDetail;
 import com.zw.admin.server.dto.GenerateInput;
 import com.zw.admin.server.service.GenerateService;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 代码生成接口
  * 
@@ -29,6 +31,7 @@ public class GenerateController {
 	@Autowired
 	private GenerateService generateService;
 
+	@ApiOperation("根据表名显示表信息")
 	@GetMapping(params = { "tableName" })
 	@RequiresPermissions("generate:edit")
 	public GenerateDetail generateByTableName(String tableName) {
@@ -40,7 +43,8 @@ public class GenerateController {
 		return detail;
 	}
 
-	@LogAnnotation(module = "生成代码")
+	@LogAnnotation
+	@ApiOperation("生成代码")
 	@PostMapping
 	@RequiresPermissions("generate:edit")
 	public void save(@RequestBody GenerateInput input) {

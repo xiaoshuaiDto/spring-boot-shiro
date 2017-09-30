@@ -60,7 +60,12 @@ public class SwaggerConfig {
 	public Docket mailsDocket() {
 		return docket("邮件", "/mails.*");
 	}
-	
+
+	@Bean("generateDocket")
+	public Docket generateDocket() {
+		return docket("代码生成", "/generate.*");
+	}
+
 	@Bean("jobsDocket")
 	public Docket jobsDocket() {
 		return docket("定时任务", "/jobs.*");

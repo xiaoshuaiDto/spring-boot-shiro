@@ -52,6 +52,7 @@ public class JobConfig {
 		jobModel.setSpringBeanName("sysLogServiceImpl");
 		jobModel.setMethodName("deleteLogs");
 		jobModel.setIsSysJob(true);
+		jobModel.setStatus(1);
 
 		jobService.saveJob(jobModel);
 	}

@@ -141,9 +141,12 @@ public class JobController {
 
 		Set<String> names = new HashSet<>();
 		Arrays.asList(methods).parallelStream().forEach(m -> {
-			Class<?>[] classes = m.getParameterTypes();
-			if (classes.length == 0) {
-				names.add(m.getName());
+			int b = m.getModifiers();// public 1 static 8 final 16
+			if (b == 1 || b == 9 || b == 17 || b == 25) {
+				Class<?>[] classes = m.getParameterTypes();
+				if (classes.length == 0) {
+					names.add(m.getName());
+				}
 			}
 		});
 

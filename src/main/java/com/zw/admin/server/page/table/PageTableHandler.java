@@ -13,6 +13,7 @@ import lombok.Builder;
  */
 @Builder
 public class PageTableHandler<T> {
+
 	private CountHandler countHandler;
 	private ListHandler<T> listHandler;
 
@@ -29,7 +30,7 @@ public class PageTableHandler<T> {
 			list = new ArrayList<T>();
 		}
 
-		return PageTableResponse.<T> builder().count(count).code(0).data(list).build();
+		return PageTableResponse.<T> builder().recordsTotal(count).recordsFiltered(count).data(list).build();
 	}
 
 	public interface ListHandler<T> {

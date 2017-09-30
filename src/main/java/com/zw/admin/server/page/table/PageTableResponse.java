@@ -20,8 +20,8 @@ public class PageTableResponse<T> implements Serializable {
 
 	private static final long serialVersionUID = 620421858510718076L;
 
-	private Integer code;
-	private Integer count;
+	private Integer recordsTotal;
+	private Integer recordsFiltered;
 	private List<T> data;
 
 }

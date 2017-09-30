@@ -2,18 +2,18 @@ package com.zw.admin.server.config;
 
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.quartz.Trigger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import com.zw.admin.server.job.DeleteLogJob;
+import com.zw.admin.server.model.JobModel;
+import com.zw.admin.server.service.JobService;
 
 @Configuration
 public class JobConfig {
@@ -34,28 +34,26 @@ public class JobConfig {
 		quartzScheduler.setOverwriteExistingJobs(true);
 		quartzScheduler.setApplicationContextSchedulerContextKey(KEY);
 
-		Trigger[] triggers = { deleteLogTrigger().getObject() };
-		quartzScheduler.setTriggers(triggers);
-
 		return quartzScheduler;
 	}
 
-	@Bean
-	public JobDetailFactoryBean deleteLogJob() {
-		JobDetailFactoryBean jobDetailFactory = new JobDetailFactoryBean();
-		jobDetailFactory.setJobClass(DeleteLogJob.class);
-		jobDetailFactory.setDurability(true);
-		jobDetailFactory.setDescription("定时删除三个月前日志");
+	@Autowired
+	private JobService jobService;
 
-		return jobDetailFactory;
-	}
+	/**
+	 * 初始化一个定时删除日志的任务
+	 */
+	@PostConstruct
+	public void initDeleteLogsJob() {
+		JobModel jobModel = new JobModel();
+		jobModel.setJobName("delete-logs-job");
+		jobModel.setCron("0 0 0 * * ?");
+		jobModel.setDescription("定时删除三个月前日志");
+		jobModel.setSpringBeanName("sysLogServiceImpl");
+		jobModel.setMethodName("deleteLogs");
+		jobModel.setIsSysJob(true);
 
-	@Bean
-	public CronTriggerFactoryBean deleteLogTrigger() {
-		CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
-		cronTriggerFactoryBean.setJobDetail(deleteLogJob().getObject());
-		cronTriggerFactoryBean.setCronExpression("0 0 0 * * ?");
-		return cronTriggerFactoryBean;
+		jobService.saveJob(jobModel);
 	}
 
 }

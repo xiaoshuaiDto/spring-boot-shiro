@@ -60,6 +60,11 @@ public class SwaggerConfig {
 	public Docket mailsDocket() {
 		return docket("邮件", "/mails.*");
 	}
+	
+	@Bean("jobsDocket")
+	public Docket jobsDocket() {
+		return docket("定时任务", "/jobs.*");
+	}
 
 	private Docket docket(String title, String path) {
 		Docket docket = new Docket(DocumentationType.SWAGGER_2)

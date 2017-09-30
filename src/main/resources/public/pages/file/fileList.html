@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
 </head>
 <body>
@@ -32,8 +34,22 @@
                 
                 <div>
                     <div class="widget-body no-padding">
-						<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
-					</div>
+                        <table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                </tr>                       
+                                <tr>
+                                    <th>url</th>
+                                    <th>path</th>
+                                    <th>contentType</th>
+                                    <th>修改时间</th>
+                                    <th>管理</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,53 +60,70 @@
 <script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../../js/jq.js"></script>
 <script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="../../js/my/permission.js"></script>
 <script type="text/javascript">
 var pers = checkPermission();
-var ins1;
-
-layui.use(['layer', 'table'], function(){
-    var layer = layui.layer;
-    var table = layui.table;
-
-    ins1 = table.render({
-      elem: '#LAY_table_user'
-      ,url: '/files'
-      ,cols: [[
-        {title: 'url', width:400, templet: '#urlDemo'}
-        ,{field:'path', title: 'path', width:500}
-        ,{field:'contentType', title: 'contentType', width:200}
-        ,{field:'updateTime', title: '修改时间', width:200, sort:true}
-        ,{fixed: 'right', width:100, align:'center', title:'管理', templet: '#barDemo'}
-      ]]
-      ,page: true
-      ,limit: 15
-      ,done: function(res, curr, count){
-    	 hidePermission(pers);
-      }
-    });
-
-    table.on('sort(user)', function(obj){ //注：tool是工具条事件名，user是table原始容器的属性 lay-filter="对应的值"
-          var column = obj.field; //当前排序的字段名
-	  	  var softType = obj.type; //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序
-	  	  if(softType != null){
-	  		ins1.reload({
-	  	        where: {
-	  	        	orderBy: column + " " + softType
-	  	        }
-	  	      });
-	  	  }
-  	  
-   });
-});
-
-$("#searchBt").click(function(){
-	ins1.reload();
-});
 
 var pro = window.location.protocol;
 var host = window.location.host;
 var domain = pro + "//" + host;
+
+var example;
+function init(){
+	example = 
+    	$('#dt-table').DataTable({
+        	"searching": false,
+        	"processing": false,
+        	"serverSide" : true,
+        	"ajax": {
+        		"url" : "/files",
+        		"type":"get",
+        		"data":function(d){
+    			
+    			}
+        	},
+        	"dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",	
+            "columns": [
+                { "data": "url", "defaultContent": ""},
+                { "data": "path", "defaultContent": ""},
+                { "data": "contentType", "defaultContent": ""},
+                { "data": "updateTime", "defaultContent": ""},
+                { "data": "", "defaultContent": ""},
+                
+            ],
+            "columnDefs": [
+                { 
+                	"targets": 0,
+                	"render": function (data, type, row) {
+                		var url = row['url'];
+                		var type = row['type'];
+                		var u = "";
+                		if(type == 1) {
+                			var src = domain + "/files" + url;
+                			u = "<a target='_blank' href='" + src +"'><img width='30' src='" + src + "'></img></a>";
+                		} else {
+                			u = url;
+                		}
+                    	return u;
+                  	}
+                },
+                { "name": "path", "targets": 1 },
+                { "name": "contentType", "targets": 2 },
+                { "name": "updateTime", "targets": 3 },
+                { 
+                	"targets": 4,
+                	"render": function (data, type, row) {
+                		var id = row['id'];
+                        var del = buttonDel(id, "sys:file:del", pers);
+                        return del;
+                  	}
+                }
+              ],
+           "order": [[ 3, "desc" ]]
+        } );
+}
 
 function del(id){
 	layer.confirm('确定要删除吗？', {
@@ -100,7 +133,7 @@ function del(id){
             type : 'delete',
             url : '/files/'+id,
             success : function(data) {
-            	ins1.reload();
+                example.ajax.reload();
                 layer.msg("删除成功");
             }
         });
@@ -110,7 +143,7 @@ function del(id){
 }
 
 $("#searchBt").click(function(){
-	ins1.reload();
+	example.ajax.reload();
 });
 
 layui.use('upload', function(){
@@ -121,19 +154,10 @@ layui.use('upload', function(){
 	    ,url: '/files' //上传接口
 	    ,done: function(res, index, upload){
 	    	layer.msg("上传成功");
-	    	ins1.reload();
+		 	example.ajax.reload();
 	    }
 	  });
 });
 
+init();
 </script>
-<script type="text/html" id="urlDemo">
-{{# if(d.type == 1) { var src = domain + "/files" + d.url;}}
-	<a target='_blank' href='{{src}}'><img width='30' src='{{src}}'></img></a>
-{{#} else { }}
-{{d.url}}
-{{#}}}   
-</script>   
-<script type="text/html" id="barDemo">
-<button class='layui-btn layui-btn-mini' title='删除' permission="sys:file:del" onclick="del('{{d.id}}')"><i class='layui-icon'>&#xe640;</i></button>
-</script>   

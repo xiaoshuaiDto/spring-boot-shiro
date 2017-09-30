@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -35,13 +36,12 @@ public class PageTableArgumentResolver implements HandlerMethodArgumentResolver 
 
 		PageTableRequest tableRequest = new PageTableRequest();
 		Map<String, String[]> param = request.getParameterMap();
-
-		if (param.containsKey("limit")) {
-			tableRequest.setLimit(Integer.parseInt(request.getParameter("limit")));
+		if (param.containsKey("start")) {
+			tableRequest.setOffset(Integer.parseInt(request.getParameter("start")));
 		}
-		if (param.containsKey("page")) {
-			int page = Integer.parseInt(request.getParameter("page"));
-			tableRequest.setOffset((page - 1) * tableRequest.getLimit());
+
+		if (param.containsKey("length")) {
+			tableRequest.setLimit(Integer.parseInt(request.getParameter("length")));
 		}
 
 		Map<String, Object> map = Maps.newHashMap();
@@ -55,11 +55,32 @@ public class PageTableArgumentResolver implements HandlerMethodArgumentResolver 
 			}
 		});
 
-		if (map.containsKey("orderBy")) {
-			map.put("orderBy", " order by " + map.get("orderBy"));
-		}
+		setOrderBy(tableRequest, map);
 
 		return tableRequest;
+	}
+
+	private void setOrderBy(PageTableRequest tableRequest, Map<String, Object> map) {
+		StringBuilder orderBy = new StringBuilder();
+		int size = map.size();
+		for (int i = 0; i < size; i++) {
+			String index = (String) map.get("order[" + i + "][column]");
+			if (StringUtils.isEmpty(index)) {
+				break;
+			}
+			String column = (String) map.get("columns[" + index + "][data]");
+			if (StringUtils.isBlank(column)) {
+				continue;
+			}
+			String sort = (String) map.get("order[" + i + "][dir]");
+
+			orderBy.append(column).append(" ").append(sort).append(", ");
+		}
+
+		if (orderBy.length() > 0) {
+			tableRequest.getParams().put("orderBy",
+					" order by " + StringUtils.substringBeforeLast(orderBy.toString(), ","));
+		}
 	}
 
 }

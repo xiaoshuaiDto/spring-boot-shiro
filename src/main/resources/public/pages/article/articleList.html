@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" media="screen" href="../../layui/css/layui.css">
 </head>
 <body>
@@ -13,32 +15,23 @@
 	                    <table style="width: 100%">
 	                   		<tr>
 	                   			<td>
-								<form class="layui-form" onsubmit="return false">
-										<table style="width: 80%">
-											<tr>
-												<td width="200px">
-													<input id="title" type="text" class="layui-input" placeholder="title">
-												</td>
-												<td width="200px">
-													<input type="text" class="layui-input" placeholder="开始时间" id="beginTime">
-												</td>
-												<td width="200px">
-													<input type="text" class="layui-input" placeholder="结束时间" id="endTime">
-												</td>
-												<td width="200px">
-													<select class="form-control input-sm" id="status">
-														<option value="">全部</option>
-														<option value="0">草稿</option>
-														<option value="1">发布</option>
-													</select>
-												</td>
-												<td align="left">
-													<button id="searchBt" class="layui-btn layui-btn-small" permission="articles:query"><i class="layui-icon">&#xe615;</i>搜索</button>
-												</td>
-											<tr>
-										</table>
-											
+									<form class="form-inline" onsubmit="return false">
+										<div class="form-group">
+											title：
+											<input id="title" type="text" class="form-control" placeholder="title">
+											时间：
+											<input type="text" class="form-control" placeholder="开始时间" id="beginTime">
+											<input type="text" class="form-control" placeholder="结束时间" id="endTime">
+											状态：
+											<select class="form-control input-sm" id="status">
+												<option value="">全部</option>
+												<option value="0">草稿</option>
+												<option value="1">发布</option>
+											</select>
+											<button id="searchBt" class="layui-btn layui-btn-small" permission="articles:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+										</div>
 									</form>
+								</td>
 								<td align="right">
 									<button class="layui-btn layui-btn-small" onclick="location.href='addArticle.html'" permission="articles:add">
 									  <i class="layui-icon">&#xe608;</i> 添加
@@ -51,8 +44,22 @@
                 
                 <div>
                     <div class="widget-body no-padding">
-						<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
-					</div>
+                        <table id="dt-table" class="table table-striped table-bordered table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                </tr>                       
+                                <tr>
+                                    <th style="width: 10%">id</th>
+                                    <th>title</th>
+                                    <th style="width: 20%">修改时间</th>
+									<th style="width: 10%">状态</th>     
+									<th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
         </div>
     </div>
@@ -62,46 +69,11 @@
 <script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../../js/jq.js"></script>
 <script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/plugin/datatables/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="../../js/my/permission.js"></script>
 <script type="text/javascript">
 var pers = checkPermission();
-var ins1;
-
-layui.use(['layer', 'table'], function(){
-    var layer = layui.layer;
-    var table = layui.table;
-
-    ins1 = table.render({
-      elem: '#LAY_table_user'
-      ,url: '/articles'
-      ,cols: [[
-        {field:'id', title: 'ID', width:150}
-        ,{field:'title', title: 'title', width:300, sort:true}
-        ,{field:'content', title: 'content', width:500}
-        ,{field:'createTime', title: '创建时间', width:200, sort:true}
-        ,{fixed: 'right', width:100, align:'center', title:'状态', templet: '#statusDemo'}
-        ,{fixed: 'right', width:100, align:'center', title:'操作', templet: '#barDemo'}
-      ]]
-      ,page: true
-      ,limit: 15
-      ,done: function(res, curr, count){
-    	 hidePermission(pers);
-      }
-    });
-
-    table.on('sort(user)', function(obj){ //注：tool是工具条事件名，user是table原始容器的属性 lay-filter="对应的值"
-          var column = obj.field; //当前排序的字段名
-	 	  var softType = obj.type; //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序
-	 	  if(softType != null){
-	 		ins1.reload({
-	 	        where: {
-	 	        	orderBy: column + " " + softType
-	 	        }
-	 	      });
-	 	  }
-  	  
-   });
-});
 layui.use(['layer','laydate'], function(){
     var layer = layui.layer;
     var laydate = layui.laydate;
@@ -113,6 +85,63 @@ layui.use(['layer','laydate'], function(){
     });
 });
 
+var example;
+function init(){
+	example = 
+    	$('#dt-table').DataTable({
+        	"searching": false,
+        	"processing": false,
+        	"serverSide" : true,
+        	"ajax": {
+        		"url" : "/articles",
+        		"type":"get",
+        		"data":function(d){
+    				d.title = $('#title').val();
+    				d.status = $('#status').val();
+    				d.beginTime = $('#beginTime').val();
+    				d.endTime = $('#endTime').val();
+    			}
+        	},
+        	"dom": "<'dt-toolbar'r>t<'dt-toolbar-footer'<'col-sm-10 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-10' p v>>",	
+            "columns": [
+                { "data": "id", "defaultContent": ""},
+                { "data": "title", "defaultContent": ""},
+                { "data": "updateTime", "defaultContent": ""},
+                { "data": "status", "defaultContent": ""},
+                { "data": "", "defaultContent": ""},
+            ],
+            "columnDefs": [
+                { "name": "id", "targets": 0 },
+                { "name": "title", "targets": 1 },
+                { "name": "updateTime", "targets": 2 },
+                { 
+                	"targets": 3,
+                	"render": function (data, type, row) {
+                		var status = row['status'];
+                		var a = "";
+                		if(status == 0){
+                			a = "草稿";
+                		} else if(status == 1){
+                			a = "发布";
+                		}
+                    	return a;
+                  	}
+                },
+                { 
+                	"targets": 4,
+                	"render": function (data, type, row) {
+                		var id = row['id'];
+                		var href = "updateArticle.html?id=" + id;
+                		var edit = buttonEdit(href, "articles:add", pers);
+                        var del = buttonDel(id, "articles:del", pers);
+                        return edit + del;
+                  }
+                }
+              ],
+            "order": [[ 2, "desc" ],[1, "desc"]]
+        } );
+}
+
 function del(id){
     layer.confirm('确定要删除吗？', {
         btn : [ '确定', '取消' ]
@@ -121,7 +150,7 @@ function del(id){
             type : 'delete',
             url : '/articles/'+id,
             success : function(data) {
-            	ins1.reload();
+                example.ajax.reload();
                 layer.msg("删除成功");
             }
         });
@@ -131,25 +160,8 @@ function del(id){
 }
 
 $("#searchBt").click(function(){
-	ins1.reload({
-        where: {
-        	title: $("#title").val(),
-        	beginTime: $("#beginTime").val(),
-        	endTime: $("#endTime").val(),
-        	status: $("#status").val(),
-        }
-    });
+	example.ajax.reload();
 });
 
+init();
 </script>
-<script type="text/html" id="statusDemo">
-{{# if(d.status == 1) { }}
-	发布
-{{#} else { }}
-草稿
-{{#}}}       			
-</script>   
-<script type="text/html" id="barDemo">
-<button class='layui-btn layui-btn-mini' title='编辑' permission="articles:add" onclick="window.location='updateArticle.html?id={{d.id}}'"><i class='layui-icon'>&#xe642;</i></button>
-<button class='layui-btn layui-btn-mini' title='删除' permission="articles:del" onclick="del('{{d.id}}')"><i class='layui-icon'>&#xe640;</i></button>
-</script>    

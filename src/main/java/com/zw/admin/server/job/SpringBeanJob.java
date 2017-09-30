@@ -7,21 +7,20 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.zw.admin.server.config.JobConfig;
-import com.zw.admin.server.service.SysLogService;
+import com.zw.admin.server.service.JobService;
 
-public class DeleteLogJob extends QuartzJobBean {
+public class SpringBeanJob extends QuartzJobBean {
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		try {
 			ApplicationContext applicationContext = (ApplicationContext) context.getScheduler().getContext()
 					.get(JobConfig.KEY);
-			SysLogService service = applicationContext.getBean(SysLogService.class);
-			service.deleteLogs();
+			JobService jobService = applicationContext.getBean(JobService.class);
+			jobService.doJob(context.getJobDetail().getJobDataMap());
 		} catch (SchedulerException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

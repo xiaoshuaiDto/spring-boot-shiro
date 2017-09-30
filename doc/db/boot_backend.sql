@@ -327,10 +327,14 @@ INSERT INTO `sys_permission` VALUES ('22', '0', '公告管理', 'fa-book', 'page
 INSERT INTO `sys_permission` VALUES ('23', '22', '查询', '', '', '2', 'articles:query', '100');
 INSERT INTO `sys_permission` VALUES ('24', '22', '添加', '', '', '2', 'articles:add', '100');
 INSERT INTO `sys_permission` VALUES ('25', '22', '删除', '', '', '2', 'articles:del', '100');
-INSERT INTO `sys_permission` VALUES ('26', '0', '日志查询', 'fa-reorder', 'pages/log/logList.html', '1', 'sys:log:query', '100');
-INSERT INTO `sys_permission` VALUES ('27', '0', '邮件管理', 'fa-envelope', 'pages/mail/mailList.html', '1', '', '100');
+INSERT INTO `sys_permission` VALUES ('26', '0', '日志查询', 'fa-reorder', 'pages/log/logList.html', '1', 'sys:log:query', '13');
+INSERT INTO `sys_permission` VALUES ('27', '0', '邮件管理', 'fa-envelope', 'pages/mail/mailList.html', '1', '', '14');
 INSERT INTO `sys_permission` VALUES ('28', '27', '发送邮件', '', '', '2', 'mail:send', '100');
 INSERT INTO `sys_permission` VALUES ('29', '27', '查询', '', '', '2', 'mail:all:query', '100');
+INSERT INTO `sys_permission` VALUES ('30', '0', '定时任务管理', 'fa-tasks', 'pages/job/jobList.html', '1', '', '15');
+INSERT INTO `sys_permission` VALUES ('31', '30', '查询', '', '', '2', 'job:query', '100');
+INSERT INTO `sys_permission` VALUES ('32', '30', '新增', '', '', '2', 'job:add', '100');
+INSERT INTO `sys_permission` VALUES ('33', '30', '删除', '', '', '2', 'job:del', '100');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -392,6 +396,10 @@ INSERT INTO `sys_role_permission` VALUES ('1', '26');
 INSERT INTO `sys_role_permission` VALUES ('1', '27');
 INSERT INTO `sys_role_permission` VALUES ('1', '28');
 INSERT INTO `sys_role_permission` VALUES ('1', '29');
+INSERT INTO `sys_role_permission` VALUES ('1', '30');
+INSERT INTO `sys_role_permission` VALUES ('1', '31');
+INSERT INTO `sys_role_permission` VALUES ('1', '32');
+INSERT INTO `sys_role_permission` VALUES ('1', '33');
 INSERT INTO `sys_role_permission` VALUES ('2', '1');
 INSERT INTO `sys_role_permission` VALUES ('2', '2');
 INSERT INTO `sys_role_permission` VALUES ('2', '3');
@@ -415,6 +423,8 @@ INSERT INTO `sys_role_permission` VALUES ('2', '22');
 INSERT INTO `sys_role_permission` VALUES ('2', '23');
 INSERT INTO `sys_role_permission` VALUES ('2', '24');
 INSERT INTO `sys_role_permission` VALUES ('2', '25');
+INSERT INTO `sys_role_permission` VALUES ('2', '30');
+INSERT INTO `sys_role_permission` VALUES ('2', '31');
 
 -- ----------------------------
 -- Table structure for sys_role_user
@@ -478,6 +488,25 @@ CREATE TABLE `t_mail` (
 -- ----------------------------
 -- Records of t_mail
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_job
+-- ----------------------------
+DROP TABLE IF EXISTS `t_job`;
+CREATE TABLE `t_job` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `jobName` varchar(64) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `cron` varchar(64) NOT NULL,
+  `springBeanName` varchar(64) NOT NULL COMMENT 'springBean名',
+  `methodName` varchar(64) NOT NULL COMMENT '方法名',
+  `isSysJob` tinyint(1) NOT NULL COMMENT '是否是系统job',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `createTime` datetime NOT NULL,
+  `updateTime` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `jobName` (`jobName`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for t_mail_to

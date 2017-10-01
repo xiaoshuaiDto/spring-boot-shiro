@@ -74,7 +74,7 @@ public class SwaggerConfig {
 	private Docket docket(String title, String path) {
 		Docket docket = new Docket(DocumentationType.SWAGGER_2)
 				.groupName(title).apiInfo(new ApiInfoBuilder().title(title)
-						.contact(new Contact("小威老师", "", "zhangw@test.com")).version("1.0").build())
+						.contact(new Contact("小威老师", "", "xiaoweijiagou@163.com")).version("1.0").build())
 				.select().paths(PathSelectors.regex(path)).build();
 
 		return docket;

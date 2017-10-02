@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Articles extends BaseEntity<Long> {
+public class Notice extends BaseEntity<Long> {
 
 	private static final long serialVersionUID = -4401913568806243090L;
 

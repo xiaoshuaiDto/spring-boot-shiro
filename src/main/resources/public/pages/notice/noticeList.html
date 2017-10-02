@@ -28,12 +28,12 @@
 												<option value="0">草稿</option>
 												<option value="1">发布</option>
 											</select>
-											<button id="searchBt" class="layui-btn layui-btn-small" permission="articles:query"><i class="layui-icon">&#xe615;</i>搜索</button>
+											<button id="searchBt" class="layui-btn layui-btn-small" permission="notice:query"><i class="layui-icon">&#xe615;</i>搜索</button>
 										</div>
 									</form>
 								</td>
 								<td align="right">
-									<button class="layui-btn layui-btn-small" onclick="location.href='addArticle.html'" permission="articles:add">
+									<button class="layui-btn layui-btn-small" onclick="location.href='addNotice.html'" permission="notice:add">
 									  <i class="layui-icon">&#xe608;</i> 添加
 									</button>
 	                   			</td>
@@ -93,7 +93,7 @@ function init(){
         	"processing": false,
         	"serverSide" : true,
         	"ajax": {
-        		"url" : "/articles",
+        		"url" : "/notices",
         		"type":"get",
         		"data":function(d){
     				d.title = $('#title').val();
@@ -131,15 +131,29 @@ function init(){
                 	"targets": 4,
                 	"render": function (data, type, row) {
                 		var id = row['id'];
-                		var href = "updateArticle.html?id=" + id;
-                		var edit = buttonEdit(href, "articles:add", pers);
-                        var del = buttonDel(id, "articles:del", pers);
-                        return edit + del;
+                		var status = row['status'];
+                		var href = "updateNotice.html?id=" + id;
+                		var edit = buttonEdit(href, "notice:add", pers);
+                		if(status == 1){
+                			edit = "";
+                		}
+                        var del = buttonDel(id, "notice:del", pers);
+                        return edit + del + "<button class='layui-btn layui-btn-mini' title='详情' onclick='showDetail(\"" + id +"\")'><i class='layui-icon'>&#xe65f;</i></button>";
                   }
                 }
               ],
             "order": [[ 2, "desc" ],[1, "desc"]]
         } );
+}
+
+function showDetail(id){
+	layer.open({
+		  type: 2,
+		  title: false,
+		  area: ['800px', '400px'],
+		  shadeClose: true,
+		  content: ['detail.html?id='+id]
+		});
 }
 
 function del(id){
@@ -148,7 +162,7 @@ function del(id){
     }, function() {
         $.ajax({
             type : 'delete',
-            url : '/articles/'+id,
+            url : '/notices/'+id,
             success : function(data) {
                 example.ajax.reload();
                 layer.msg("删除成功");

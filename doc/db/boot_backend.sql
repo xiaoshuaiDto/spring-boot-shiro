@@ -1,37 +1,19 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50717
+Source Server         : zhangw
+Source Server Version : 50624
 Source Host           : localhost:3306
 Source Database       : boot_backend
 
 Target Server Type    : MYSQL
-Target Server Version : 50717
+Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2017-09-27 17:40:56
+Date: 2017-10-02 19:26:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for articles
--- ----------------------------
-DROP TABLE IF EXISTS `articles`;
-CREATE TABLE `articles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) NOT NULL,
-  `content` text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  `createTime` datetime NOT NULL,
-  `updateTime` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of articles
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for file_info
@@ -299,7 +281,7 @@ CREATE TABLE `sys_permission` (
   `permission` varchar(50) DEFAULT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -324,10 +306,10 @@ INSERT INTO `sys_permission` VALUES ('18', '16', '删除', '', '', '2', 'sys:fil
 INSERT INTO `sys_permission` VALUES ('19', '0', '数据源监控', 'fa-eye', 'druid/index.html', '1', '', '9');
 INSERT INTO `sys_permission` VALUES ('20', '0', '接口swagger', 'fa-file-pdf-o', 'swagger-ui.html', '1', '', '10');
 INSERT INTO `sys_permission` VALUES ('21', '0', '代码生成', 'fa-wrench', 'pages/generate/edit.html', '1', 'generate:edit', '11');
-INSERT INTO `sys_permission` VALUES ('22', '0', '公告管理', 'fa-book', 'pages/article/articleList.html', '1', '', '12');
-INSERT INTO `sys_permission` VALUES ('23', '22', '查询', '', '', '2', 'articles:query', '100');
-INSERT INTO `sys_permission` VALUES ('24', '22', '添加', '', '', '2', 'articles:add', '100');
-INSERT INTO `sys_permission` VALUES ('25', '22', '删除', '', '', '2', 'articles:del', '100');
+INSERT INTO `sys_permission` VALUES ('22', '0', '公告管理', 'fa-book', 'pages/notice/noticeList.html', '1', '', '12');
+INSERT INTO `sys_permission` VALUES ('23', '22', '查询', '', '', '2', 'notice:query', '100');
+INSERT INTO `sys_permission` VALUES ('24', '22', '添加', '', '', '2', 'notice:add', '100');
+INSERT INTO `sys_permission` VALUES ('25', '22', '删除', '', '', '2', 'notice:del', '100');
 INSERT INTO `sys_permission` VALUES ('26', '0', '日志查询', 'fa-reorder', 'pages/log/logList.html', '1', 'sys:log:query', '13');
 INSERT INTO `sys_permission` VALUES ('27', '0', '邮件管理', 'fa-envelope', 'pages/mail/mailList.html', '1', '', '14');
 INSERT INTO `sys_permission` VALUES ('28', '27', '发送邮件', '', '', '2', 'mail:send', '100');
@@ -475,24 +457,6 @@ INSERT INTO `sys_user` VALUES ('1', 'admin', '1015ed3b5f1345911198c995f9ad097e',
 INSERT INTO `sys_user` VALUES ('2', 'user', '72c2e62dba72e5f178542313803f33d1', '143292269df8c63e2da1a9ba2aeff43c', '用户', null, '', '', '', null, '1', '1', '2017-08-01 21:47:18', '2017-08-01 21:47:18');
 
 -- ----------------------------
--- Table structure for t_mail
--- ----------------------------
-DROP TABLE IF EXISTS `t_mail`;
-CREATE TABLE `t_mail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL COMMENT '发送人',
-  `subject` varchar(255) NOT NULL COMMENT '标题',
-  `content` longtext NOT NULL COMMENT '正文',
-  `createTime` datetime NOT NULL,
-  `updateTime` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Records of t_mail
--- ----------------------------
-
--- ----------------------------
 -- Table structure for t_job
 -- ----------------------------
 DROP TABLE IF EXISTS `t_job`;
@@ -512,6 +476,28 @@ CREATE TABLE `t_job` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
+-- Records of t_job
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_mail
+-- ----------------------------
+DROP TABLE IF EXISTS `t_mail`;
+CREATE TABLE `t_mail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL COMMENT '发送人',
+  `subject` varchar(255) NOT NULL COMMENT '标题',
+  `content` longtext NOT NULL COMMENT '正文',
+  `createTime` datetime NOT NULL,
+  `updateTime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of t_mail
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_mail_to
 -- ----------------------------
 DROP TABLE IF EXISTS `t_mail_to`;
@@ -525,4 +511,37 @@ CREATE TABLE `t_mail_to` (
 
 -- ----------------------------
 -- Records of t_mail_to
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_notice
+-- ----------------------------
+DROP TABLE IF EXISTS `t_notice`;
+CREATE TABLE `t_notice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) NOT NULL,
+  `content` text NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `createTime` datetime NOT NULL,
+  `updateTime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of t_notice
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_notice_read
+-- ----------------------------
+DROP TABLE IF EXISTS `t_notice_read`;
+CREATE TABLE `t_notice_read` (
+  `noticeId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `createTime` datetime NOT NULL,
+  PRIMARY KEY (`noticeId`,`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of t_notice_read
 -- ----------------------------

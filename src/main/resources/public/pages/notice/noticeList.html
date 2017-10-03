@@ -135,7 +135,7 @@ function init(){
                 		var href = "updateNotice.html?id=" + id;
                 		var edit = buttonEdit(href, "notice:add", pers);
                 		if(status == 1){
-                			edit = "";
+                			edit = "<button class='layui-btn layui-btn-mini' style='background-color:#c2c2c2;' title='不可编辑'><i class='layui-icon' style='color: #F0F0F0;'>&#xe642;</i></button>";
                 		}
                         var del = buttonDel(id, "notice:del", pers);
                         return edit + del + "<button class='layui-btn layui-btn-mini' title='详情' onclick='showDetail(\"" + id +"\")'><i class='layui-icon'>&#xe65f;</i></button>";

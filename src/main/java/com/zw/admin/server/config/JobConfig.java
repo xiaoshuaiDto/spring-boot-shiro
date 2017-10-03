@@ -34,6 +34,7 @@ public class JobConfig {
 		quartzScheduler.setDataSource(dataSource);
 		quartzScheduler.setOverwriteExistingJobs(true);
 		quartzScheduler.setApplicationContextSchedulerContextKey(KEY);
+		quartzScheduler.setStartupDelay(10);
 
 		return quartzScheduler;
 	}

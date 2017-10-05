@@ -26,7 +26,7 @@ import com.zw.admin.server.filter.RestfulFilter;
  *
  */
 @Configuration
-public class ShiroConfiguration {
+public class ShiroConfig {
 
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {

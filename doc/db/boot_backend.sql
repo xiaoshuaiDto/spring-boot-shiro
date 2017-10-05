@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2017-10-02 19:26:05
+Date: 2017-10-05 22:00:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -281,7 +281,7 @@ CREATE TABLE `sys_permission` (
   `permission` varchar(50) DEFAULT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -318,6 +318,9 @@ INSERT INTO `sys_permission` VALUES ('30', '0', '定时任务管理', 'fa-tasks'
 INSERT INTO `sys_permission` VALUES ('31', '30', '查询', '', '', '2', 'job:query', '100');
 INSERT INTO `sys_permission` VALUES ('32', '30', '新增', '', '', '2', 'job:add', '100');
 INSERT INTO `sys_permission` VALUES ('33', '30', '删除', '', '', '2', 'job:del', '100');
+INSERT INTO `sys_permission` VALUES ('34', '0', 'excel导出', 'fa-arrow-circle-down', 'pages/excel/sql.html', '1', '', '16');
+INSERT INTO `sys_permission` VALUES ('35', '34', '导出', '', '', '2', 'excel:down', '100');
+INSERT INTO `sys_permission` VALUES ('36', '34', '页面显示数据', '', '', '2', 'excel:show:datas', '100');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -336,8 +339,8 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES ('1', 'ADMIN', '管理员', '2017-05-01 13:25:39', '2017-08-28 11:11:51');
-INSERT INTO `sys_role` VALUES ('2', 'USER', '', '2017-08-01 21:47:31', '2017-08-01 21:47:31');
+INSERT INTO `sys_role` VALUES ('1', 'ADMIN', '管理员', '2017-05-01 13:25:39', '2017-10-05 21:59:18');
+INSERT INTO `sys_role` VALUES ('2', 'USER', '', '2017-08-01 21:47:31', '2017-10-05 21:59:26');
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -384,6 +387,9 @@ INSERT INTO `sys_role_permission` VALUES ('1', '30');
 INSERT INTO `sys_role_permission` VALUES ('1', '31');
 INSERT INTO `sys_role_permission` VALUES ('1', '32');
 INSERT INTO `sys_role_permission` VALUES ('1', '33');
+INSERT INTO `sys_role_permission` VALUES ('1', '34');
+INSERT INTO `sys_role_permission` VALUES ('1', '35');
+INSERT INTO `sys_role_permission` VALUES ('1', '36');
 INSERT INTO `sys_role_permission` VALUES ('2', '1');
 INSERT INTO `sys_role_permission` VALUES ('2', '2');
 INSERT INTO `sys_role_permission` VALUES ('2', '3');
@@ -410,6 +416,8 @@ INSERT INTO `sys_role_permission` VALUES ('2', '24');
 INSERT INTO `sys_role_permission` VALUES ('2', '25');
 INSERT INTO `sys_role_permission` VALUES ('2', '30');
 INSERT INTO `sys_role_permission` VALUES ('2', '31');
+INSERT INTO `sys_role_permission` VALUES ('2', '34');
+INSERT INTO `sys_role_permission` VALUES ('2', '36');
 
 -- ----------------------------
 -- Table structure for sys_role_user

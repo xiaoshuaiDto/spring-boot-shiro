@@ -71,6 +71,11 @@ public class SwaggerConfig {
 		return docket("定时任务", "/jobs.*");
 	}
 
+	@Bean("excelDocket")
+	public Docket excelDocket() {
+		return docket("excel下载", "/excels.*");
+	}
+
 	private Docket docket(String title, String path) {
 		Docket docket = new Docket(DocumentationType.SWAGGER_2)
 				.groupName(title).apiInfo(new ApiInfoBuilder().title(title)

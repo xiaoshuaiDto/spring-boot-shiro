@@ -36,6 +36,8 @@ function initBeanNames() {
 				var v = data[i];
 				select.append("<option value='" + v + "'>" + v + "</option>")
 			}
+			
+			 $('.selectpicker').selectpicker();
 		}
 	});
 }

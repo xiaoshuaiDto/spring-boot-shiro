@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap-select.min.css">
 </head>
 <body>
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -32,7 +33,7 @@
 			<div class="form-group">
 				<label class="col-md-2 control-label">springBeanName</label>
 				<div class="col-md-10">
-					<select class="form-control" name="springBeanName" id="springBeanName" onchange="showMethods()"></select>
+					<select class="selectpicker show-tick form-control" data-live-search="true" name="springBeanName" id="springBeanName" onchange="showMethods()"></select>
 				</div>
 			</div>
 			<div class="form-group">
@@ -60,6 +61,8 @@
 </div>
 	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap/bootstrap-select.min.js"></script>
 	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
 	<script type="text/javascript" src="../../js/common.js"></script>
 	<script type="text/javascript" src="../../layui/layui.js"></script>
@@ -84,7 +87,8 @@
 						$("#jobName").val(data.jobName);
 						$("#cron").val(data.cron);
 						$("#description").val(data.description);
-						$("#springBeanName").val(data.springBeanName);
+					//	$("#springBeanName").val(data.springBeanName);
+						$('.selectpicker').selectpicker('val', data.springBeanName);
 						showMethods();
 						$("#methodName").val(data.methodName);
 					}

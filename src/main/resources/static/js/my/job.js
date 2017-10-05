@@ -54,12 +54,6 @@ function showMethods() {
 			var select = $("#methodName");
 			select.empty();
 			if (data.length == 0) {
-				layer.msg(val + "没有无参方法", {
-					shift : -1,
-					time : 1000
-				}, function() {
-				});
-
 				return;
 			}
 

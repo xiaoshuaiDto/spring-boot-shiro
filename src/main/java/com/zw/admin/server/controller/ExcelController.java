@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zw.admin.server.annotation.LogAnnotation;
 import com.zw.admin.server.utils.ExcelUtil;
 
 import io.swagger.annotations.ApiOperation;
@@ -53,6 +54,7 @@ public class ExcelController {
 		return sql;
 	}
 
+	@LogAnnotation
 	@ApiOperation("根据sql导出excel")
 	@PostMapping
 	@RequiresPermissions("excel:down")
@@ -85,6 +87,7 @@ public class ExcelController {
 		}
 	}
 
+	@LogAnnotation
 	@ApiOperation("根据sql在页面显示结果")
 	@PostMapping("/show-datas")
 	@RequiresPermissions("excel:show:datas")

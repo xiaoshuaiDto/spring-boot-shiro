@@ -55,7 +55,8 @@ public class PermissionController {
 			list = permissionDao.listByUserId(user.getId());
 			UserUtil.setPermissionSession(list);
 		}
-		final List<Permission> permissions = list;
+		final List<Permission> permissions = list.stream().filter(l -> l.getType().equals(1))
+				.collect(Collectors.toList());
 
 		return reset(permissions);
 	}

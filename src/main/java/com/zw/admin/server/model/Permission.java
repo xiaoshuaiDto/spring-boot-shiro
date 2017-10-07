@@ -1,5 +1,6 @@
 package com.zw.admin.server.model;
 
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,4 +18,6 @@ public class Permission extends BaseEntity<Long> {
 	private Integer type;
 	private String permission;
 	private Integer sort;
+
+	private List<Permission> child;
 }

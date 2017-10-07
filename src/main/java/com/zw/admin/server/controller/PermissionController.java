@@ -48,7 +48,7 @@ public class PermissionController {
 
 	@ApiOperation(value = "当前登录用户拥有的权限")
 	@GetMapping("/current")
-	public JSONArray permissionsCurrent() {
+	public List<Permission> permissionsCurrent() {
 		List<Permission> list = UserUtil.getCurrentPermissions();
 		if (list == null) {
 			User user = UserUtil.getCurrentUser();
@@ -58,26 +58,17 @@ public class PermissionController {
 		final List<Permission> permissions = list.stream().filter(l -> l.getType().equals(1))
 				.collect(Collectors.toList());
 
-		return reset(permissions);
+		setChild(permissions);
+
+		return permissions.stream().filter(p -> p.getParentId().equals(0L)).collect(Collectors.toList());
 	}
 
-	private JSONArray reset(List<Permission> permissions) {
-		JSONArray array = new JSONArray();
-
-		List<Permission> parents = permissions.stream().filter(p -> p.getParentId().equals(0L) && p.getType().equals(1))
-				.collect(Collectors.toList());
-		parents.forEach(p -> {
-			String string = JSONObject.toJSONString(p);
-			JSONObject parent = (JSONObject) JSONObject.parse(string);
-			List<Permission> child = permissions.stream()
-					.filter(per -> per.getParentId().equals(p.getId()) && per.getType().equals(1))
+	private void setChild(List<Permission> permissions) {
+		permissions.parallelStream().forEach(per -> {
+			List<Permission> child = permissions.stream().filter(p -> p.getParentId().equals(per.getId()))
 					.collect(Collectors.toList());
-			parent.put("child", child);
-
-			array.add(parent);
+			per.setChild(child);
 		});
-
-		return array;
 	}
 
 	/**

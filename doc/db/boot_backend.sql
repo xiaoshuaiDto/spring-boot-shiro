@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2017-10-05 22:00:03
+Date: 2017-10-08 20:39:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -281,7 +281,7 @@ CREATE TABLE `sys_permission` (
   `permission` varchar(50) DEFAULT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_permission

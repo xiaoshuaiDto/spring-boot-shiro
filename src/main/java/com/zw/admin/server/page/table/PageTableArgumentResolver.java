@@ -1,12 +1,14 @@
 package com.zw.admin.server.page.table;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -56,10 +58,37 @@ public class PageTableArgumentResolver implements HandlerMethodArgumentResolver 
 		});
 
 		setOrderBy(tableRequest, map);
+		removeParam(tableRequest);
 
 		return tableRequest;
 	}
 
+	/**
+	 * 去除datatables分页带的一些复杂参数
+	 * 
+	 * @param tableRequest
+	 */
+	private void removeParam(PageTableRequest tableRequest) {
+		Map<String, Object> map = tableRequest.getParams();
+
+		if (!CollectionUtils.isEmpty(map)) {
+			Map<String, Object> param = new HashMap<>();
+			map.forEach((k, v) -> {
+				if (k.indexOf("[") < 0 && k.indexOf("]") < 0 && !"_".equals(k)) {
+					param.put(k, v);
+				}
+			});
+
+			tableRequest.setParams(param);
+		}
+	}
+
+	/**
+	 * 从datatables分页请求数据中解析排序
+	 * 
+	 * @param tableRequest
+	 * @param map
+	 */
 	private void setOrderBy(PageTableRequest tableRequest, Map<String, Object> map) {
 		StringBuilder orderBy = new StringBuilder();
 		int size = map.size();

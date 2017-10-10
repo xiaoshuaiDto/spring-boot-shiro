@@ -21,67 +21,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-	@Bean("userDocket")
-	public Docket userDocket() {
-		return docket("用户", "/users.*");
-	}
-
-	@Bean("roleDocket")
-	public Docket roleDocket() {
-		return docket("角色", "/roles.*");
-	}
-
-	@Bean("permissionDocket")
-	public Docket permissionDocket() {
-		return docket("权限", "/permissions.*");
-	}
-
-	@Bean("fileDocket")
-	public Docket fileDocket() {
-		return docket("文件", "/files.*");
-	}
-
-	@Bean("onlineDocket")
-	public Docket onlineDocket() {
-		return docket("在线用户", "/online/users.*");
-	}
-
-	@Bean("loginDocket")
-	public Docket loginDocket() {
-		return docket("登陆", "/sys/login.*");
-	}
-
-	@Bean("articlesDocket")
-	public Docket articlesDocket() {
-		return docket("文章", "/articles.*");
-	}
-
-	@Bean("mailsDocket")
-	public Docket mailsDocket() {
-		return docket("邮件", "/mails.*");
-	}
-
-	@Bean("generateDocket")
-	public Docket generateDocket() {
-		return docket("代码生成", "/generate.*");
-	}
-
-	@Bean("jobsDocket")
-	public Docket jobsDocket() {
-		return docket("定时任务", "/jobs.*");
-	}
-
-	@Bean("excelDocket")
-	public Docket excelDocket() {
-		return docket("excel下载", "/excels.*");
-	}
-
-	private Docket docket(String title, String path) {
-		Docket docket = new Docket(DocumentationType.SWAGGER_2)
-				.groupName(title).apiInfo(new ApiInfoBuilder().title(title)
+	@Bean
+	public Docket docket() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("swagger接口文档")
+				.apiInfo(new ApiInfoBuilder().title("swagger接口文档")
 						.contact(new Contact("小威老师", "", "xiaoweijiagou@163.com")).version("1.0").build())
-				.select().paths(PathSelectors.regex(path)).build();
-
-		return docket;
+				.select().paths(PathSelectors.any()).build();
 	}
 }

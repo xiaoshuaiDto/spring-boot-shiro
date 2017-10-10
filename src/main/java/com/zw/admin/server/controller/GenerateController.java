@@ -16,6 +16,7 @@ import com.zw.admin.server.dto.GenerateDetail;
 import com.zw.admin.server.dto.GenerateInput;
 import com.zw.admin.server.service.GenerateService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
  * @author 小威老师
  *
  */
+@Api(tags = "代码生成")
 @RestController
 @RequestMapping("/generate")
 public class GenerateController {

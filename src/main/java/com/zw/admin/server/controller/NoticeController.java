@@ -27,8 +27,10 @@ import com.zw.admin.server.page.table.PageTableRequest;
 import com.zw.admin.server.page.table.PageTableResponse;
 import com.zw.admin.server.utils.UserUtil;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(tags = "公告")
 @RestController
 @RequestMapping("/notices")
 public class NoticeController {

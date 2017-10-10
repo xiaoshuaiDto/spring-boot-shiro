@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zw.admin.server.annotation.LogAnnotation;
 import com.zw.admin.server.utils.ExcelUtil;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(tags = "excel下载")
 @RestController
 @RequestMapping("/excels")
 public class ExcelController {

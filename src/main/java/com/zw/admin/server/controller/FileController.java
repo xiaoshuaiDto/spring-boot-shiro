@@ -25,8 +25,10 @@ import com.zw.admin.server.page.table.PageTableHandler.CountHandler;
 import com.zw.admin.server.page.table.PageTableHandler.ListHandler;
 import com.zw.admin.server.service.FileService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(tags = "文件")
 @RestController
 @RequestMapping("/files")
 public class FileController {

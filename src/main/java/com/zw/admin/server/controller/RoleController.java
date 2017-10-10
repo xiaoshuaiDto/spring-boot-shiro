@@ -25,6 +25,7 @@ import com.zw.admin.server.page.table.PageTableHandler.CountHandler;
 import com.zw.admin.server.page.table.PageTableHandler.ListHandler;
 import com.zw.admin.server.service.RoleService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -33,6 +34,7 @@ import io.swagger.annotations.ApiOperation;
  * @author 小威老师
  *
  */
+@Api(tags = "角色")
 @RestController
 @RequestMapping("/roles")
 public class RoleController {

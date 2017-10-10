@@ -33,8 +33,10 @@ import com.zw.admin.server.page.table.PageTableRequest;
 import com.zw.admin.server.page.table.PageTableResponse;
 import com.zw.admin.server.service.JobService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(tags = "定时任务")
 @RestController
 @RequestMapping("/jobs")
 public class JobController {

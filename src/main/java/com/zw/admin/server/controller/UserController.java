@@ -25,6 +25,7 @@ import com.zw.admin.server.page.table.PageTableHandler.ListHandler;
 import com.zw.admin.server.service.UserService;
 import com.zw.admin.server.utils.UserUtil;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author 小威老师
  *
  */
+@Api(tags = "用户")
 @Slf4j(topic = "adminLogger")
 @RestController
 @RequestMapping("/users")

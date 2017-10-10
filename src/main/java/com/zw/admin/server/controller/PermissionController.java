@@ -29,6 +29,7 @@ import com.zw.admin.server.model.User;
 import com.zw.admin.server.service.PermissionService;
 import com.zw.admin.server.utils.UserUtil;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -37,6 +38,7 @@ import io.swagger.annotations.ApiOperation;
  * @author 小威老师
  *
  */
+@Api(tags = "权限")
 @RestController
 @RequestMapping("/permissions")
 public class PermissionController {

@@ -16,8 +16,10 @@ import com.zw.admin.server.page.table.PageTableResponse;
 import com.zw.admin.server.page.table.PageTableHandler.CountHandler;
 import com.zw.admin.server.page.table.PageTableHandler.ListHandler;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(tags = "日志")
 @RestController
 @RequestMapping("/logs")
 public class SysLogsController {

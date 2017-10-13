@@ -51,7 +51,7 @@ public class LoginController {
 
 	@ApiOperation(value = "当前登录用户")
 	@GetMapping("/sys/login")
-	private User getLoginInfo() {
+	public User getLoginInfo() {
 		return UserUtil.getCurrentUser();
 	}
 

@@ -55,6 +55,9 @@
 		                 var src = domain + "/files" + url;
 		                 var a = "<a target='_blank' href='" + src +"'><img src='" + src + "'></img></a>";
 		                 $("#headImgDiv").html(a);
+		                 
+		                 var img = parent.$(".admin-header-user img");
+		     			 img.attr("src", src);
 		            }
 		        });
 	    }

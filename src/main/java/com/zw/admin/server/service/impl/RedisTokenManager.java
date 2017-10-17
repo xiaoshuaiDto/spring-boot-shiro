@@ -42,7 +42,7 @@ public class RedisTokenManager implements TokenManager {
 		redisTemplate.opsForValue().set(TOKEN_PREFIX + key, JSONObject.toJSONString(usernamePasswordToken),
 				expireSeconds, TimeUnit.SECONDS);
 
-		return Token.builder().token(key).expireTime(DateUtils.addSeconds(new Date(), expireSeconds)).build();
+		return new Token(key, DateUtils.addSeconds(new Date(), expireSeconds));
 	}
 
 	@Override

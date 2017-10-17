@@ -2,6 +2,8 @@ package com.zw.admin.server.service.impl;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,11 +14,10 @@ import com.zw.admin.server.model.FileInfo;
 import com.zw.admin.server.service.FileService;
 import com.zw.admin.server.utils.FileUtil;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j(topic = "adminLogger")
 @Service
 public class FileServiceImpl implements FileService {
+	
+	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
 	@Value("${files.path}")
 	private String filesPath;

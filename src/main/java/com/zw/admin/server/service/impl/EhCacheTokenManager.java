@@ -46,7 +46,7 @@ public class EhCacheTokenManager implements TokenManager {
 		element.setTimeToLive(expireSeconds);
 		cache.put(element);
 
-		return Token.builder().token(key).expireTime(DateUtils.addSeconds(new Date(), expireSeconds)).build();
+		return new Token(key, DateUtils.addSeconds(new Date(), expireSeconds));
 	}
 
 	@Override

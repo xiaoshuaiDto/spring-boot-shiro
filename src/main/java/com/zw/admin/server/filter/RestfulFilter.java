@@ -84,8 +84,8 @@ public class RestfulFilter extends UserFilter {
 		return false;
 	}
 
-	private static String info = JSONObject.toJSONString(
-			ResponseInfo.builder().code(HttpStatus.UNAUTHORIZED.value() + "").message("token不存在或者过期").build());
+	private static String info = JSONObject
+			.toJSONString(new ResponseInfo(HttpStatus.UNAUTHORIZED.value() + "", "token不存在或者过期"));
 
 	public static void writeResponse(HttpServletResponse response, int status, String json) {
 		try {

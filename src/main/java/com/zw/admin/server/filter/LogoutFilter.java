@@ -5,6 +5,8 @@ import javax.servlet.ServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.util.WebUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import com.alibaba.fastjson.JSONObject;
@@ -15,8 +17,6 @@ import com.zw.admin.server.service.TokenManager;
 import com.zw.admin.server.utils.SpringUtil;
 import com.zw.admin.server.utils.UserUtil;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * 退出<br>
  * web退出和restful方式退出<br>
@@ -26,8 +26,9 @@ import lombok.extern.slf4j.Slf4j;
  *
  *         2017年8月13日
  */
-@Slf4j(topic = "adminLogger")
 public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter {
+
+	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
 	@Override
 	protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
@@ -55,9 +56,8 @@ public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
 		}
 	}
 
-	private static String SUCCESS_INFO = JSONObject
-			.toJSONString(ResponseInfo.builder().code(HttpStatus.OK.value() + "").message("退出成功").build());
-	private static String ERR_INFO = JSONObject.toJSONString(
-			ResponseInfo.builder().code(HttpStatus.BAD_REQUEST.value() + "").message("退出失败,token不存在").build());
+	private static String SUCCESS_INFO = JSONObject.toJSONString(new ResponseInfo(HttpStatus.OK.value() + "", "退出成功"));
+	private static String ERR_INFO = JSONObject
+			.toJSONString(new ResponseInfo(HttpStatus.BAD_REQUEST.value() + "", "退出失败,token不存在"));
 
 }

@@ -17,6 +17,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import com.zw.admin.server.dao.PermissionDao;
@@ -29,10 +31,12 @@ import com.zw.admin.server.service.UserService;
 import com.zw.admin.server.utils.SpringUtil;
 import com.zw.admin.server.utils.UserUtil;
 
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j(topic = "adminLogger")
+
+
 public class MyShiroRealm extends AuthorizingRealm {
+	
+	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {

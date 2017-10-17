@@ -3,6 +3,8 @@ package com.zw.admin.server.controller;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +29,6 @@ import com.zw.admin.server.utils.UserUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 用户相关接口
@@ -36,10 +37,12 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Api(tags = "用户")
-@Slf4j(topic = "adminLogger")
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
 	@Autowired
 	private UserService userService;
@@ -91,21 +94,21 @@ public class UserController {
 	@GetMapping
 	@ApiOperation(value = "用户列表")
 	@RequiresPermissions("sys:user:query")
-	public PageTableResponse<User> listUsers(PageTableRequest request) {
-		return PageTableHandler.<User> builder().countHandler(new CountHandler() {
+	public PageTableResponse listUsers(PageTableRequest request) {
+		return new PageTableHandler(new CountHandler() {
 
 			@Override
 			public int count(PageTableRequest request) {
 				return userDao.count(request.getParams());
 			}
-		}).listHandler(new ListHandler<User>() {
+		}, new ListHandler() {
 
 			@Override
 			public List<User> list(PageTableRequest request) {
 				List<User> list = userDao.list(request.getParams(), request.getOffset(), request.getLimit());
 				return list;
 			}
-		}).build().handle(request);
+		}).handle(request);
 	}
 
 	@ApiOperation(value = "当前登录用户")

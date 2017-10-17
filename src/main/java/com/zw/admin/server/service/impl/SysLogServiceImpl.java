@@ -23,7 +23,6 @@ public class SysLogServiceImpl implements SysLogService {
 	@Autowired
 	private SysLogsDao sysLogsDao;
 
-	@Async
 	@Override
 	public void save(SysLogs sysLogs) {
 		User user = UserUtil.getCurrentUser();

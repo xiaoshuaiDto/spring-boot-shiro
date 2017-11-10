@@ -38,8 +38,8 @@ CREATE TABLE `file_info` (
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_blob_triggers`;
-CREATE TABLE `qrtz_blob_triggers` (
+DROP TABLE IF EXISTS `QRTZ_BLOB_TRIGGERS`;
+CREATE TABLE `QRTZ_BLOB_TRIGGERS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_GROUP` varchar(64) COLLATE utf8mb4_bin NOT NULL,
@@ -54,8 +54,8 @@ CREATE TABLE `qrtz_blob_triggers` (
 -- ----------------------------
 -- Table structure for qrtz_calendars
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_calendars`;
-CREATE TABLE `qrtz_calendars` (
+DROP TABLE IF EXISTS `QRTZ_CALENDARS`;
+CREATE TABLE `QRTZ_CALENDARS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `CALENDAR_NAME` varchar(128) COLLATE utf8mb4_bin NOT NULL,
   `CALENDAR` blob NOT NULL,
@@ -69,8 +69,8 @@ CREATE TABLE `qrtz_calendars` (
 -- ----------------------------
 -- Table structure for qrtz_cron_triggers
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_cron_triggers`;
-CREATE TABLE `qrtz_cron_triggers` (
+DROP TABLE IF EXISTS `QRTZ_CRON_TRIGGERS`;
+CREATE TABLE `QRTZ_CRON_TRIGGERS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_GROUP` varchar(64) COLLATE utf8mb4_bin NOT NULL,
@@ -86,8 +86,8 @@ CREATE TABLE `qrtz_cron_triggers` (
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_fired_triggers`;
-CREATE TABLE `qrtz_fired_triggers` (
+DROP TABLE IF EXISTS `QRTZ_FIRED_TRIGGERS`;
+CREATE TABLE `QRTZ_FIRED_TRIGGERS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `ENTRY_ID` varchar(128) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
@@ -111,8 +111,8 @@ CREATE TABLE `qrtz_fired_triggers` (
 -- ----------------------------
 -- Table structure for qrtz_job_details
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_job_details`;
-CREATE TABLE `qrtz_job_details` (
+DROP TABLE IF EXISTS `QRTZ_JOB_DETAILS`;
+CREATE TABLE `QRTZ_JOB_DETAILS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `JOB_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `JOB_GROUP` varchar(64) COLLATE utf8mb4_bin NOT NULL,
@@ -133,8 +133,8 @@ CREATE TABLE `qrtz_job_details` (
 -- ----------------------------
 -- Table structure for qrtz_locks
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_locks`;
-CREATE TABLE `qrtz_locks` (
+DROP TABLE IF EXISTS `QRTZ_LOCKS`;
+CREATE TABLE `QRTZ_LOCKS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `LOCK_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`LOCK_NAME`)
@@ -147,8 +147,8 @@ CREATE TABLE `qrtz_locks` (
 -- ----------------------------
 -- Table structure for qrtz_paused_trigger_grps
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_paused_trigger_grps`;
-CREATE TABLE `qrtz_paused_trigger_grps` (
+DROP TABLE IF EXISTS `QRTZ_PAUSED_TRIGGER_GRPS`;
+CREATE TABLE `QRTZ_PAUSED_TRIGGER_GRPS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_GROUP` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`SCHED_NAME`,`TRIGGER_GROUP`)
@@ -161,8 +161,8 @@ CREATE TABLE `qrtz_paused_trigger_grps` (
 -- ----------------------------
 -- Table structure for qrtz_scheduler_state
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_scheduler_state`;
-CREATE TABLE `qrtz_scheduler_state` (
+DROP TABLE IF EXISTS `QRTZ_SCHEDULER_STATE`;
+CREATE TABLE `QRTZ_SCHEDULER_STATE` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `INSTANCE_NAME` varchar(128) COLLATE utf8mb4_bin NOT NULL,
   `LAST_CHECKIN_TIME` bigint(13) NOT NULL,
@@ -177,8 +177,8 @@ CREATE TABLE `qrtz_scheduler_state` (
 -- ----------------------------
 -- Table structure for qrtz_simple_triggers
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_simple_triggers`;
-CREATE TABLE `qrtz_simple_triggers` (
+DROP TABLE IF EXISTS `QRTZ_SIMPLE_TRIGGERS`;
+CREATE TABLE `QRTZ_SIMPLE_TRIGGERS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_GROUP` varchar(64) COLLATE utf8mb4_bin NOT NULL,
@@ -195,8 +195,8 @@ CREATE TABLE `qrtz_simple_triggers` (
 -- ----------------------------
 -- Table structure for qrtz_simprop_triggers
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_simprop_triggers`;
-CREATE TABLE `qrtz_simprop_triggers` (
+DROP TABLE IF EXISTS `QRTZ_SIMPROP_TRIGGERS`;
+CREATE TABLE `QRTZ_SIMPROP_TRIGGERS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_GROUP` varchar(64) COLLATE utf8mb4_bin NOT NULL,
@@ -221,8 +221,8 @@ CREATE TABLE `qrtz_simprop_triggers` (
 -- ----------------------------
 -- Table structure for qrtz_triggers
 -- ----------------------------
-DROP TABLE IF EXISTS `qrtz_triggers`;
-CREATE TABLE `qrtz_triggers` (
+DROP TABLE IF EXISTS `QRTZ_TRIGGERS`;
+CREATE TABLE `QRTZ_TRIGGERS` (
   `SCHED_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_NAME` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `TRIGGER_GROUP` varchar(64) COLLATE utf8mb4_bin NOT NULL,

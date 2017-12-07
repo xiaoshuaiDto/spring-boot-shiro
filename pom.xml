@@ -21,6 +21,8 @@
 		<commons-lang3>3.7</commons-lang3>
 		<fastjson.version>1.2.41</fastjson.version>
 		<quartz.version>2.3.0</quartz.version>
+		<druid.version>1.1.6</druid.version>
+		<poi.version>3.17</poi.version>
 	</properties>
 
 	<dependencies>
@@ -93,7 +95,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.1.0</version>
+			<version>${druid.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -130,7 +132,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.16</version>
+			<version>${poi.version}</version>
 		</dependency>
 		<!-- 集群下，启用session共享时，需打开 -->
 		<!-- <dependency> <groupId>org.springframework.session</groupId> <artifactId>spring-session</artifactId> 

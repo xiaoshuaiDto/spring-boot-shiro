@@ -108,7 +108,7 @@
 				<div class="layui-field-box">
 					<p>单机下不需要session共享</p>
 					<p>集群下，请打开pom里的 groupId：org.springframework.session
-						artifactId：spring-session 和com.zw.admin.server.config.RedisConfig
+						artifactId：spring-session-data-redis 和com.zw.admin.server.config.RedisConfig
 						中的@EnableRedisHttpSession</p>
 					<p>将EhCacheTokenManager类上的注解@Primary移到RedisTokenManager上面</p>
 				</div>

@@ -30,9 +30,9 @@ public class DruidConfig {
 	private static final Logger log = LoggerFactory.getLogger("adminLogger");
 
 	@Bean
-	public ServletRegistrationBean druidServlet() {
+	public ServletRegistrationBean<StatViewServlet> druidServlet() {
 		log.info("init Druid Servlet Configuration ");
-		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),
+		ServletRegistrationBean<StatViewServlet> servletRegistrationBean = new ServletRegistrationBean<>(new StatViewServlet(),
 				"/druid/*");
 		// IP白名单
 		servletRegistrationBean.addInitParameter("allow", "127.0.0.1");
@@ -47,8 +47,8 @@ public class DruidConfig {
 	}
 
 	@Bean
-	public FilterRegistrationBean filterRegistrationBean() {
-		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+	public FilterRegistrationBean<WebStatFilter> filterRegistrationBean() {
+		FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<>(new WebStatFilter());
 		filterRegistrationBean.addUrlPatterns("/*");
 		filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
 		return filterRegistrationBean;

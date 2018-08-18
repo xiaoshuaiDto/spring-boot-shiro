@@ -11,9 +11,9 @@
 2. 配置信息在application.yml里，数据库的用户名、密码、ip、端口等，根据情况修改一下
 
 #### 使用说明
-
+1. 安装运行文档在/文档和sql/01 安装运行.docx
 1. 右键运行启动类com.zw.admin.server.ServerApplication
-2. 访问http://localhost:8080
+2. 访问http://localhost:8080，用户名和密码都是admin
 
 
 #### 参与贡献

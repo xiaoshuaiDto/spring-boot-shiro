@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Ehcache配置
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  */
 @Configuration

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * 启动类
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  *         2017年4月18日
  */

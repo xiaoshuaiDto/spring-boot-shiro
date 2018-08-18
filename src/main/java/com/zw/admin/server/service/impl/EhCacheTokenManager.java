@@ -21,7 +21,7 @@ import net.sf.ehcache.Element;
  * EhCache实现的Token<br>
  * 默认采用此实现
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  *         2017年8月4日
  */

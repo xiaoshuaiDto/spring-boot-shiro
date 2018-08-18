@@ -25,7 +25,7 @@ import com.zw.admin.server.utils.SpringUtil;
  * 在参数中或者header里加参数login-token作为登陆凭证<br>
  * 参数值是登陆成功后的返回值中获取
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  *         2017年8月3日
  */

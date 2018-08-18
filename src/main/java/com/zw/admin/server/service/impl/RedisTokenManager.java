@@ -20,7 +20,7 @@ import com.zw.admin.server.service.TokenManager;
  * redis实现的Token
  * 
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  *         2017年8月13日
  */

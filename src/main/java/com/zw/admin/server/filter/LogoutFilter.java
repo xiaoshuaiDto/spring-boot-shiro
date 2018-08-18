@@ -22,7 +22,7 @@ import com.zw.admin.server.utils.UserUtil;
  * web退出和restful方式退出<br>
  * 后者会删除缓存的token
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  *         2017年8月13日
  */

@@ -9,56 +9,63 @@ function initMenu(){
 	    		 location.href='/login.html';
 	    		 return;
 	    	 }
-	    	 var menu = $("#menu");
-	    	 $.each(data, function(i,item){
-	             var a = $("<a href='javascript:;'></a>");
-	             
-	             var css = item.css;
-	             if(css!=null && css!=""){
-	            	 a.append("<i aria-hidden='true' class='fa " + css +"'></i>");
-	             }
-	             a.append("<cite>"+item.name+"</cite>");
-	             a.attr("lay-id", item.id);
-	             
-	             var href = item.href;
-	             if(href != null && href != ""){
-	                a.attr("data-url", href);
-	             }
-	             
-	             var li = $("<li class='layui-nav-item'></li>");
-	             if (i == 0) {
-	            	 li.addClass("layui-nav-itemed");
-	             }
-	             li.append(a);
-	             
-	             //二级菜单
-	             var child2 = item.child;
-	             if(child2 != null && child2.length > 0){
-	            	 $.each(child2, function(j,item2){
-	            		 var ca = $("<a href='javascript:;'></a>");
-                         ca.attr("data-url", item2.href);
-                         ca.attr("lay-id", item2.id);
-                         
-                         var css2 = item2.css;
-                         if(css2!=null && css2!=""){
-                        	 ca.append("<i aria-hidden='true' class='fa " + css2 +"'></i>");
-                         }
-                         
-                         ca.append("<cite>"+item2.name+"</cite>");
-                         
-                         var dd = $("<dd></dd>");
-                         dd.append(ca);
-                         
-                         var dl = $("<dl class='layui-nav-child'></dl>");
-                         dl.append(dd);
-                         
-                         li.append(dl);
-	            	 });
-	            }
-	            menu.append(li);
-	        });
+             var menu = $("#menu");
+             $.each(data, function(i,item){
+                 var a = $("<a href='javascript:;'></a>");
+
+                 var css = item.css;
+                 if(css!=null && css!=""){
+                     a.append("<i aria-hidden='true' class='fa " + css +"'></i>");
+                 }
+                 a.append("<cite>"+item.name+"</cite>");
+                 a.attr("lay-id", item.id);
+
+                 var href = item.href;
+                 if(href != null && href != ""){
+                     a.attr("data-url", href);
+                 }
+
+                 var li = $("<li class='layui-nav-item'></li>");
+                 if (i == 0) {
+                     li.addClass("layui-nav-itemed");
+                 }
+                 li.append(a);
+                 menu.append(li);
+
+                 //多级菜单
+                 setChild(li, item.child)
+
+             });
 	     }
 	 });
+}
+
+function setChild(parentElement, child){
+    if(child != null && child.length > 0){
+        $.each(child, function(j,item2){
+            var ca = $("<a href='javascript:;'></a>");
+            ca.attr("data-url", item2.href);
+            ca.attr("lay-id", item2.id);
+
+            var css2 = item2.css;
+            if(css2!=null && css2!=""){
+                ca.append("<i aria-hidden='true' class='fa " + css2 +"'></i>");
+            }
+
+            ca.append("<cite>"+item2.name+"</cite>");
+
+            var dd = $("<dd></dd>");
+            dd.append(ca);
+
+            var dl = $("<dl class='layui-nav-child'></dl>");
+            dl.append(dd);
+
+            parentElement.append(dl);
+
+            // 递归
+            setChild(dd, item2.child);
+        });
+    }
 }
 
 // 登陆用户头像昵称

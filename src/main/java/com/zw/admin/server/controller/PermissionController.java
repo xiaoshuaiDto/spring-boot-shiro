@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 /**
  * 权限相关接口
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  */
 @Api(tags = "权限")
@@ -60,18 +60,39 @@ public class PermissionController {
 		final List<Permission> permissions = list.stream().filter(l -> l.getType().equals(1))
 				.collect(Collectors.toList());
 
-		setChild(permissions);
-
-		return permissions.stream().filter(p -> p.getParentId().equals(0L)).collect(Collectors.toList());
-	}
-
-	private void setChild(List<Permission> permissions) {
-		permissions.parallelStream().forEach(per -> {
-			List<Permission> child = permissions.stream().filter(p -> p.getParentId().equals(per.getId()))
-					.collect(Collectors.toList());
-			per.setChild(child);
+		List<Permission> firstLevel = permissions.stream().filter(p -> p.getParentId().equals(0L)).collect(Collectors.toList());
+		firstLevel.parallelStream().forEach(p -> {
+			setChild(p, permissions);
 		});
+
+		return firstLevel;
 	}
+
+	/**
+	 * 设置子元素
+	 * 2018.06.09
+	 *
+	 * @param p
+	 * @param permissions
+	 */
+	private void setChild(Permission p, List<Permission> permissions) {
+		List<Permission> child = permissions.parallelStream().filter(a -> a.getParentId().equals(p.getId())).collect(Collectors.toList());
+		p.setChild(child);
+		if (!CollectionUtils.isEmpty(child)) {
+			child.parallelStream().forEach(c -> {
+				//递归设置子元素，多级菜单支持
+				setChild(c, permissions);
+			});
+		}
+	}
+
+//	private void setChild(List<Permission> permissions) {
+//		permissions.parallelStream().forEach(per -> {
+//			List<Permission> child = permissions.stream().filter(p -> p.getParentId().equals(per.getId()))
+//					.collect(Collectors.toList());
+//			per.setChild(child);
+//		});
+//	}
 
 	/**
 	 * 菜单列表

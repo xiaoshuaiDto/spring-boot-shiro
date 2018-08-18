@@ -22,7 +22,7 @@ import com.zw.admin.server.filter.RestfulFilter;
 /**
  * shiro配置
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  */
 @Configuration

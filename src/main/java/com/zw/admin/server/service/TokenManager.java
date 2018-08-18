@@ -14,7 +14,7 @@ import com.zw.admin.server.service.impl.RedisTokenManager;
  * @see EhCacheTokenManager
  * @see RedisTokenManager
  * 
- * @author 小威老师
+ * @author 小威老师 xiaoweijiagou@163.com
  *
  *         2017年8月4日
  */

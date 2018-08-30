@@ -3,6 +3,7 @@ package com.zw.admin.server.controller;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,8 @@ public class LoginController {
 
 	@Autowired
 	private TokenManager tokenManager;
+	@Autowired
+	private ServerProperties serverProperties;
 
 	@LogAnnotation
 	@ApiOperation(value = "web端登陆")
@@ -37,6 +40,8 @@ public class LoginController {
 	public void login(String username, String password) {
 		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
 		SecurityUtils.getSubject().login(usernamePasswordToken);
+		// 设置shiro的session过期时间
+		SecurityUtils.getSubject().getSession().setTimeout(serverProperties.getServlet().getSession().getTimeout().toMillis());
 	}
 
 	@LogAnnotation

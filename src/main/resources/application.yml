@@ -64,3 +64,6 @@ token:
     seconds: 86400
 server:
   port: 8080
+  servlet:
+    session:
+      timeout: 30m #30分钟，m是分钟单位，s是秒的单位，h是小时的单位，不写单位的话默认是毫秒

@@ -54,8 +54,7 @@ public class EhCacheTokenManager implements TokenManager {
 		Cache cache = cacheManager.getCacheManager().getCache("login_user_tokens");
 		Element element = cache.get(key);
 		if (element != null) {
-			UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) element.getValue();
-			return usernamePasswordToken;
+			return (UsernamePasswordToken) element.getObjectValue();
 		}
 
 		return null;

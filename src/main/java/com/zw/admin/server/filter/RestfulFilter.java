@@ -12,6 +12,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
 import com.alibaba.fastjson.JSONObject;
@@ -33,6 +34,10 @@ public class RestfulFilter extends UserFilter {
 
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        if (HttpMethod.OPTIONS.name().equalsIgnoreCase(WebUtils.toHttp(request).getMethod())) {
+            return Boolean.TRUE;
+        }
+
 		String loginToken = getToken(request);
 		if (StringUtils.isBlank(loginToken)) {// 非Restful方式
 			return super.isAccessAllowed(request, response, mappedValue);

@@ -19,15 +19,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	/**
 	 * 跨域支持
-	 * 
-	 * @return
 	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedMethods("*");
+				registry.addMapping("/**")
+						.allowedMethods("*")
+						.allowedHeaders("*")
+						.allowedOrigins("*")
+						.allowCredentials(true)
+						.maxAge(18000L);
 			}
 		};
 	}
